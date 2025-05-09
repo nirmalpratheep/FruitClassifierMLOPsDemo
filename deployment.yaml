@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: image-classifier
-        image: your-dockerhub-username/image-classifier:latest
+        image: nirmalpratheep/image-classifier:latest
         ports:
         - containerPort: 8000
         resources:
