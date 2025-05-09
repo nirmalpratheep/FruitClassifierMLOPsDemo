@@ -31,9 +31,12 @@ jobs:
       run: |
         docker build -t nirmalpratheep/image-classifier:latest . 
 
-      
-    #- name: Log in to Docker Hub
-    #  run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+    - name: Debug Docker credentials (do not print secrets!)
+      run: |
+        echo "Docker username: ${{ secrets.DOCKER_USER }}"
+    
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker --debug login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Push Docker image
       run: docker push nirmalpratheep/image-classifier:latest
