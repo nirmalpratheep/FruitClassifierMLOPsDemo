@@ -25,15 +25,15 @@ jobs:
       run: |
         # Add your test commands here
         echo "Running tests..."
-        run: echo "${{ secrets.DOCKER_PASSWORD }} | ${{ secrets.DOCKER_USERNAME }}" 
+        
         
     - name: Build Docker image
       run: |
         docker build -t nirmalpratheep/image-classifier:latest . 
 
       
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+    #- name: Log in to Docker Hub
+    #  run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Push Docker image
       run: docker push nirmalpratheep/image-classifier:latest
