@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        # Add your test commands here
+        echo "Running tests..."
+
+    - name: Build Docker image
+      run: |
+        docker build -t your-dockerhub-username/image-classifier:latest .
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Push Docker image
+      run: docker push your-dockerhub-username/image-classifier:latest
+
+    - name: Set up Kubeconfig
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.20.0'
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
