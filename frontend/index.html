@@ -1,1 +1,30 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fruit Classifier</title>
+</head>
+<body>
+  <h1>Upload an Image</h1>
+  <input type="file" id="fileInput" />
+  <button onclick="sendImage()">Predict</button>
+  <p id="result"></p>
+
+  <script>
+    async function sendImage() {
+      const input = document.getElementById("fileInput");
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("http://localhost:8000/predict/", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      document.getElementById("result").innerText = `Prediction: ${data.prediction}`;
+    }
+  </script>
+</body>
+</html>
 <!-- HTML frontend placeholder -->
